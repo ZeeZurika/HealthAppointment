@@ -1,4 +1,4 @@
-package org.zurika.healthappointment;
+package org.zurika.healthappointment.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

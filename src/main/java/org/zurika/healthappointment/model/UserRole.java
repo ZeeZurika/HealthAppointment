@@ -1,7 +1,7 @@
-package org.zurika.healthappointment;
+package org.zurika.healthappointment.model;
 
 public enum UserRole {
     ADMIN,
     DOCTOR,
-    
+    PATIENT
 }

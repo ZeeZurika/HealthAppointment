@@ -1,40 +1,50 @@
-package org.zurika.healthappointment;
+package org.zurika.healthappointment.config;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.zurika.healthappointment.model.User;
-import org.zurika.healthappointment.model.UserRole;
-import org.zurika.healthappointment.repository.UserRepository;
+import org.zurika.healthappointment.model.*;
+import org.zurika.healthappointment.repository.*;
 
 @Component
-public class DataInitializer implements CommandLineRunner {
+public class DataInitializer {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    /**
+     * Initialize default data on application startup.
+     */
+    @PostConstruct
+    public void initData() {
+        // Check and create default admin user if not exists
+        if (userRepository.existsByUsername("admin")) {
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setEmail("admin@example.com");
+            admin.setPassword("password"); // Replace with hashed password in production
+            admin.setRole(UserRole.ADMIN);
+            userRepository.save(admin);
+        }
 
-    @Override
-    public void run(String... args) throws Exception {
-        if (userRepository.count() == 0) {
-            // Create a default admin user
-            User adminUser = new User();
-            adminUser.setUsername("admin");
-            adminUser.setEmail("admin@example.com");
-            adminUser.setPassword(passwordEncoder.encode("admin123")); // Hash the password
-            adminUser.setFirstName("Default");
-            adminUser.setLastName("Admin");
-            adminUser.setRole(UserRole.ADMIN);
+        // Check and create default doctor user if not exists
+        if (userRepository.existsByUsername("doctor")) {
+            User doctor = new User();
+            doctor.setUsername("doctor");
+            doctor.setEmail("doctor@example.com");
+            doctor.setPassword("password"); // Replace with hashed password in production
+            doctor.setRole(UserRole.DOCTOR);
+            userRepository.save(doctor);
+        }
 
-            userRepository.save(adminUser);
-
-            System.out.println("Default admin user created. Username: admin, Password: admin123");
-        } else {
-            System.out.println("Users already exist in the database.");
+        // Check and create default patient user if not exists
+        if (userRepository.existsByUsername("patient")) {
+            User patient = new User();
+            patient.setUsername("patient");
+            patient.setEmail("patient@example.com");
+            patient.setPassword("password"); // Replace with hashed password in production
+            patient.setRole(UserRole.PATIENT);
+            userRepository.save(patient);
         }
     }
 }
-
