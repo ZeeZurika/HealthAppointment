@@ -45,7 +45,7 @@ public class DoctorController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error updating appointment: " + e.getMessage());
         }
-        return "redirect:/doctor/dashboard"; // Redirect to the appointments page
+        return "redirect:/doctor/dashboard";
     }
 
     // Helper method to get the logged-in doctor's ID (replace with actual implementation)
