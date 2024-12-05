@@ -23,14 +23,19 @@ public class AppointmentService {
         return appointmentRepository.findAll();
     }
 
+    // Get all doctors
+    public List<User> getAllDoctors() {
+        return userRepository.findByRole(UserRole.DOCTOR);
+    }
+
     // Get all appointments for a patient
     public List<Appointment> getPatientAppointments(Long patientId) {
-        return appointmentRepository.findByPatientId(patientId);
+        return appointmentRepository.findByPatientIdAndStatus(patientId, AppointmentStatus.CONFIRMED);
     }
 
     // Get all appointments for a doctor
     public List<Appointment> getDoctorAppointments(Long doctorId) {
-        return appointmentRepository.findByDoctorId(doctorId);
+        return appointmentRepository.findByDoctorIdAndStatus(doctorId, AppointmentStatus.CONFIRMED);
     }
 
     // Get all appointments by status

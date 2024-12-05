@@ -7,8 +7,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
 </head>
 <body>
+<header>
+        <div class="header-container">
+            <div class="header-content">
+                <img src="../welcome-logo.png" alt="hospital Logo" class="logo">
+                <span class="header-text">Welcome to Per Scholas Capstone Health Center</span>
+            </div>
+        </div>
+        <div class="container">
+            <a href="/logout" class="btn btn-danger float-end">Logout</a>
+        </div>
+
+</header>
 <div class="container mt-5">
-    <h2>Welcome to Your Dashboard, Doctor</h2>
+    <h2>Doctor Dashboard</h2>
 
     <!-- Success/Error Messages -->
     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
@@ -28,22 +40,53 @@
         <!-- View Appointments -->
         <div class="tab-pane fade show active" id="viewAppointments" role="tabpanel">
             <h4>Your Appointments</h4>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Patient</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="appointment : ${appointments}">
-                    <td th:text="${appointment.patient.firstName} + ' ' + ${appointment.patient.lastName}">John Doe</td>
-                    <td th:text="${#temporals.format(appointment.appointmentDate, 'yyyy-MM-dd HH:mm')}">2024-12-10 14:00</td>
-                    <td th:text="${appointment.status}">CONFIRMED</td>
-                </tr>
-                </tbody>
-            </table>
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Doctor Dashboard</title>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+            </head>
+            <body>
+            <div class="container mt-5">
+                <h1>Doctor Dashboard</h1>
+                <h2>Appointments</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="appointment : ${appointments}">
+                        <td th:text="${appointment.id}"></td>
+                        <td th:text="${appointment.patient.firstName + ' ' + appointment.patient.lastName}"></td>
+                        <td th:text="${appointment.appointmentDate}"></td>
+                        <td th:text="${appointment.status}"></td>
+                        <td>
+                            <form action="/doctor/updateAppointment" method="post">
+                                <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                <select name="status" class="form-select">
+                                    <option value="CONFIRMED">Confirm</option>
+                                    <option value="CANCELED">Cancel</option>
+                                    <option value="COMPLETED">Complete</option>
+                                    <option value="RESCHEDULED">Reschedule</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            </body>
+            </html>
+
         </div>
 
         <!-- Manage Appointments -->

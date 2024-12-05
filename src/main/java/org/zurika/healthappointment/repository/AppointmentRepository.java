@@ -23,4 +23,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     // Fetch appointments within a specific date range
     List<Appointment> findByAppointmentDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
+    List<Appointment> findByPatientIdAndStatus(Long patientId, AppointmentStatus appointmentStatus);
+
+    List<Appointment> findByDoctorIdAndStatus(Long doctorId, AppointmentStatus appointmentStatus);
 }

@@ -17,6 +17,9 @@ class AppointmentServiceTest {
     @Mock
     private AppointmentRepository appointmentRepository;
 
+    @Mock
+    private UserRepository userRepository;
+
     @InjectMocks
     private AppointmentService appointmentService;
 
@@ -43,29 +46,45 @@ class AppointmentServiceTest {
 
     @Test
     void testScheduleAppointment() {
+        // Arrange: Mock data
+        Long patientId = 1L;
+        Long doctorId = 2L;
+        LocalDateTime appointmentDate = LocalDateTime.of(2024, 12, 10, 10, 0);
+
         User patient = new User();
-        patient.setId(1L);
+        patient.setId(patientId);
+        patient.setUsername("patient");
+        patient.setEmail("patient@example.com");
 
         User doctor = new User();
-        doctor.setId(2L);
-
-        LocalDateTime appointmentDate = LocalDateTime.now();
+        doctor.setId(doctorId);
+        doctor.setUsername("doctor");
+        doctor.setEmail("doctor@example.com");
 
         Appointment mockAppointment = new Appointment();
+        mockAppointment.setId(1L);
         mockAppointment.setPatient(patient);
         mockAppointment.setDoctor(doctor);
         mockAppointment.setAppointmentDate(appointmentDate);
         mockAppointment.setStatus(AppointmentStatus.CONFIRMED);
 
+        when(userRepository.findById(patientId)).thenReturn(Optional.of(patient));
+        when(userRepository.findById(doctorId)).thenReturn(Optional.of(doctor));
         when(appointmentRepository.save(any(Appointment.class))).thenReturn(mockAppointment);
 
-        Appointment appointment = appointmentService.scheduleAppointment(1L, 2L, appointmentDate);
+        // Act: Call the method
+        Appointment appointment = appointmentService.scheduleAppointment(patientId, doctorId, appointmentDate);
 
+        // Assert: Verify the result
         assertNotNull(appointment);
+        assertEquals(patientId, appointment.getPatient().getId());
+        assertEquals(doctorId, appointment.getDoctor().getId());
+        assertEquals(appointmentDate, appointment.getAppointmentDate());
         assertEquals(AppointmentStatus.CONFIRMED, appointment.getStatus());
-        assertEquals(patient, appointment.getPatient());
-        assertEquals(doctor, appointment.getDoctor());
 
+        // Verify interactions
+        verify(userRepository, times(1)).findById(patientId);
+        verify(userRepository, times(1)).findById(doctorId);
         verify(appointmentRepository, times(1)).save(any(Appointment.class));
     }
 

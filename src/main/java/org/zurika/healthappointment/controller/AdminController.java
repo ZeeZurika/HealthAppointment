@@ -36,8 +36,11 @@ public class AdminController {
     public String addUser(@RequestParam String username,
                           @RequestParam String email,
                           @RequestParam String password,
-                          @RequestParam String role) {
-        userService.addUser(username, email, password, role);
+                          @RequestParam String firstName,
+                          @RequestParam String lastName,
+                          @RequestParam String role
+                          ) {
+        userService.addUser(username, email, password, firstName, lastName, role);
         return "redirect:/admin/dashboard";
     }
 

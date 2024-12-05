@@ -29,6 +29,8 @@ public class DataInitializer {
             admin.setEmail("admin@example.com");
             admin.setPassword(passwordEncoder.encode("admin123")); // Hash the password
             admin.setRole(UserRole.ADMIN);
+            admin.setFirstName("FirstAdmin");
+            admin.setLastName("LastAdmin");
             userRepository.save(admin);
         }
 
@@ -39,6 +41,8 @@ public class DataInitializer {
             doctor.setEmail("doctor@example.com");
             doctor.setPassword(passwordEncoder.encode("doctor123")); // Hash the password
             doctor.setRole(UserRole.DOCTOR);
+            doctor.setFirstName("FirstDoctor");
+            doctor.setLastName("LastDoctor");
             userRepository.save(doctor);
         }
 
@@ -49,6 +53,8 @@ public class DataInitializer {
             patient.setEmail("patient@example.com");
             patient.setPassword(passwordEncoder.encode("patient123")); // Hash the password
             patient.setRole(UserRole.PATIENT);
+            patient.setFirstName("FirstPatient");
+            patient.setLastName("LastPatient");
             userRepository.save(patient);
         }
     }
