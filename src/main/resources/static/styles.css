@@ -22,3 +22,21 @@
     font-weight: bold;
     color: #333;
 }
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.logo {
+    width: 5px;
+    height: 1px;
+    object-fit: cover;
+    border-radius: 8px;
+}
